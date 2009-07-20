@@ -376,11 +376,11 @@ binary-arch: build install
 #	dh_installchangelogs -p$(p_rl) CHANGES
 #	dh_installexamples -p$(p_rl) \
 #		examples/Inputrc
-	mkdir -p $(d_rld)/usr/share/doc/$(p_rl)/examples
-	cp -p $(builddir)/examples/Makefile examples/*.c \
-		$(d_rld)/usr/share/doc/$(p_rl)/examples/
-	ln -sf $(p_rl) $(d_rld)/usr/share/doc/$(p_rld)
-	ln -sf $(p_rl) $(d_rlg)/usr/share/doc/$(p_rlg)
+#	mkdir -p $(d_rld)/usr/share/doc/$(p_rl)/examples
+#	cp -p $(builddir)/examples/Makefile examples/*.c \
+#		$(d_rld)/usr/share/doc/$(p_rl)/examples/
+#	ln -sf $(p_rl) $(d_rld)/usr/share/doc/$(p_rld)
+#	ln -sf $(p_rl) $(d_rlg)/usr/share/doc/$(p_rlg)
 
 ifeq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
 	dh_installdocs -p$(p_rlfe) examples/rlfe/README
