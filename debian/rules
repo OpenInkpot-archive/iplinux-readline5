@@ -231,20 +231,17 @@ install-stamp:
 	dh_installdirs -p$(p_comm) \
 		etc \
 		usr/share/readline \
-		usr/share/info \
-		usr/share/doc
-	mv $(d)/usr/share/man $(d_comm)/usr/share/.
-	mv $(d_comm)/usr/share/man/man3/history.3 \
-		$(d_comm)/usr/share/man/man3/history.3readline
-	mv $(d_comm)/usr/share/man/man3/readline.3 \
-		$(d_comm)/usr/share/man/man3/readline.3readline
-	mv $(d)/usr/share/info/rluserman.info $(d_comm)/usr/share/info/.
+#	mv $(d)/usr/share/man $(d_comm)/usr/share/.
+#	mv $(d_comm)/usr/share/man/man3/history.3 \
+#		$(d_comm)/usr/share/man/man3/history.3readline
+#	mv $(d_comm)/usr/share/man/man3/readline.3 \
+#		$(d_comm)/usr/share/man/man3/readline.3readline
+#	mv $(d)/usr/share/info/rluserman.info $(d_comm)/usr/share/info/.
 	install -m 644 debian/inputrc $(d_comm)/usr/share/readline/
 
 	: # move $(p_rlg)
 	dh_installdirs -p$(p_rlg) \
-		usr/lib/debug \
-		usr/share/doc
+		usr/lib/debug
 	mv $(d)/usr/lib/lib{history,readline}.so.$(libversion) \
 		$(d_rlg)/usr/lib/debug/.
 	ln -s libhistory.so.$(libversion) \
@@ -254,15 +251,13 @@ install-stamp:
 
 	: # move $(p_rld)
 	dh_installdirs -p$(p_rld) \
-		usr/lib \
-		usr/share/doc \
-		usr/share/info
+		usr/lib
 	ln -s /lib/libhistory.so.$(soversion) $(d_rld)/usr/lib/libhistory.so
 	ln -s /lib/libreadline.so.$(soversion) $(d_rld)/usr/lib/libreadline.so
 	mv $(d)/usr/lib/lib{history,readline}.a	$(d_rld)/usr/lib/.
 	mv $(d)/usr/include $(d_rld)/usr/.
-	mv $(d)/usr/share/info/{readline.info,history.info} \
-		$(d_rld)/usr/share/info/.
+#	mv $(d)/usr/share/info/{readline.info,history.info} \
+#		$(d_rld)/usr/share/info/.
 
 	: # remove HAVE_CONFIG_H from installed headers
 	awk '/^#if defined \(HAVE_CONFIG_H\)/, /^#endif/ \
@@ -363,10 +358,10 @@ binary-indep: build install
 	mkdir -p $(d_comm)/usr/share/lintian/overrides
 	cp -p debian/readline-common.overrides \
 		$(d_comm)/usr/share/lintian/overrides/readline-common
-	dh_installdocs -p$(p_comm) debian/inputrc.arrows
-	dh_installchangelogs -p$(p_comm)
-	dh_installdocs -p$(p_comm)
-	dh_installchangelogs -p$(p_comm)
+#	dh_installdocs -p$(p_comm) debian/inputrc.arrows
+#	dh_installchangelogs -p$(p_comm)
+#	dh_installdocs -p$(p_comm)
+#	dh_installchangelogs -p$(p_comm)
 	dh_compress -i
 	dh_installdeb -i
 	dh_gencontrol -i
@@ -376,11 +371,11 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installdocs -p$(p_rl) \
-		USAGE debian/inputrc.arrows
-	dh_installchangelogs -p$(p_rl) CHANGES
-	dh_installexamples -p$(p_rl) \
-		examples/Inputrc
+#	dh_installdocs -p$(p_rl) \
+#		USAGE debian/inputrc.arrows
+#	dh_installchangelogs -p$(p_rl) CHANGES
+#	dh_installexamples -p$(p_rl) \
+#		examples/Inputrc
 	mkdir -p $(d_rld)/usr/share/doc/$(p_rl)/examples
 	cp -p $(builddir)/examples/Makefile examples/*.c \
 		$(d_rld)/usr/share/doc/$(p_rl)/examples/
