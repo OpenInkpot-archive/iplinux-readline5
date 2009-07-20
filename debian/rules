@@ -109,7 +109,7 @@ configure-stamp: patch-stamp
 	cd $(builddir) && \
 	  CC=$(CC) $(srcdir)/configure \
 		--with-curses --prefix=/usr\
-		--host=$(DEB_HOST_GNU_TYPE)
+		--host=$(DEB_HOST_GNU_TYPE) --build $(DEB_BUILD_GNU_TYPE)
 
 ifneq ($(build32),)
 	rm -rf $(builddir32)
