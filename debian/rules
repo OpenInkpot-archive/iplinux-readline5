@@ -107,7 +107,7 @@ configure-stamp: patch-stamp
 	mkdir $(builddir)
 	find . -type d | xargs chmod g-s
 	cd $(builddir) && \
-	  CC=$(CC) $(srcdir)/configure \
+	  $(srcdir)/configure \
 		--with-curses --prefix=/usr\
 		--host=$(DEB_HOST_GNU_TYPE) --build $(DEB_BUILD_GNU_TYPE)
 
