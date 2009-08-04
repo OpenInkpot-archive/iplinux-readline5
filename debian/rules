@@ -14,48 +14,48 @@ DEB_BUILD_GNU_TYPE	?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 distribution := $(shell lsb_release -is)
 
-ifneq (,$(findstring /$(DEB_HOST_ARCH)/,/i386/powerpc/sparc/s390/))
-  build64 = yes
-  CC64 = gcc -m64
-  gencontrol_flags = -- \
-	'-Vdevxx:Depends=libc6-dev-$(ARCH64)'
-  ifeq ($(DEB_HOST_ARCH),i386)
-    ARCH64 = amd64
-    HOST64 = x86_64-linux-gnu
-  endif
-  ifeq ($(DEB_HOST_ARCH),powerpc)
-    ARCH64 = ppc64
-    HOST64 = ppc64-linux-gnu
-  endif
-  ifeq ($(DEB_HOST_ARCH),sparc)
-    ARCH64 = sparc64
-    HOST64 = sparc64-linux-gnu
-  endif
-  ifeq ($(DEB_HOST_ARCH),s390)
-    ARCH64 = s390x
-    HOST64 = s390x-linux-gnu
-  endif
-endif
+#ifneq (,$(findstring /$(DEB_HOST_ARCH)/,/i386/powerpc/sparc/s390/))
+#  build64 = yes
+#  CC64 = gcc -m64
+#  gencontrol_flags = -- \
+#	'-Vdevxx:Depends=libc6-dev-$(ARCH64)'
+#  ifeq ($(DEB_HOST_ARCH),i386)
+#    ARCH64 = amd64
+#    HOST64 = x86_64-linux-gnu
+#  endif
+#  ifeq ($(DEB_HOST_ARCH),powerpc)
+#    ARCH64 = ppc64
+#    HOST64 = ppc64-linux-gnu
+#  endif
+#  ifeq ($(DEB_HOST_ARCH),sparc)
+#    ARCH64 = sparc64
+#    HOST64 = sparc64-linux-gnu
+#  endif
+#  ifeq ($(DEB_HOST_ARCH),s390)
+#    ARCH64 = s390x
+#    HOST64 = s390x-linux-gnu
+#  endif
+#endif
 
-ifneq (,$(findstring /$(DEB_HOST_ARCH)/,/amd64/ppc64/))
-  build32 = yes
-  CC32 = gcc -m32
-  lib32dir = lib32
-  lib32devdir = usr/lib32
-  gencontrol_flags = -- \
-	'-Vdevxx:Depends=libc6-dev-$(ARCH32)'
-  ifeq ($(DEB_HOST_ARCH),amd64)
-    ARCH32 = i386
-    HOST32 = i486-linux-gnu
-    ifeq ($(distribution),Debian)
-      gencontrol_flags += '-Vlib32:Predep=libc6-i386 (>= 2.9-18)'
-    endif
-  endif
-  ifeq ($(DEB_HOST_ARCH),ppc64)
-    ARCH32 = powerpc
-    HOST32 = powerpc-linux-gnu
-  endif
-endif
+#ifneq (,$(findstring /$(DEB_HOST_ARCH)/,/amd64/ppc64/))
+#  build32 = yes
+#  CC32 = gcc -m32
+#  lib32dir = lib32
+#  lib32devdir = usr/lib32
+#  gencontrol_flags = -- \
+#	'-Vdevxx:Depends=libc6-dev-$(ARCH32)'
+#  ifeq ($(DEB_HOST_ARCH),amd64)
+#    ARCH32 = i386
+#    HOST32 = i486-linux-gnu
+#    ifeq ($(distribution),Debian)
+#      gencontrol_flags += '-Vlib32:Predep=libc6-i386 (>= 2.9-18)'
+#    endif
+#  endif
+#  ifeq ($(DEB_HOST_ARCH),ppc64)
+#    ARCH32 = powerpc
+#    HOST32 = powerpc-linux-gnu
+#  endif
+#endif
 
 ifeq ($(DEB_HOST_ARCH_OS),netbsd)
   CC_LINK_FLAGS =
@@ -110,22 +110,22 @@ configure-stamp: patch-stamp
 	  $(srcdir)/configure \
 		--with-curses --prefix=/usr\
 		--host=$(DEB_HOST_GNU_TYPE) --build $(DEB_BUILD_GNU_TYPE)
-
-ifneq ($(build32),)
-	rm -rf $(builddir32)
-	mkdir $(builddir32)
-	cd $(builddir32) && \
-	  CC="$(CC32)" $(srcdir)/configure \
-		--host=$(HOST32) --with-curses --prefix=/usr
-endif
-
-ifneq ($(build64),)
-	rm -rf $(builddir64)
-	mkdir $(builddir64)
-	cd $(builddir64) && \
-	  CC="$(CC64)" $(srcdir)/configure \
-		--host=$(HOST64) --with-curses --prefix=/usr
-endif
+#
+#ifneq ($(build32),)
+#	rm -rf $(builddir32)
+#	mkdir $(builddir32)
+#	cd $(builddir32) && \
+#	  CC="$(CC32)" $(srcdir)/configure \
+#		--host=$(HOST32) --with-curses --prefix=/usr
+#endif
+#
+#ifneq ($(build64),)
+#	rm -rf $(builddir64)
+#	mkdir $(builddir64)
+#	cd $(builddir64) && \
+#	  CC="$(CC64)" $(srcdir)/configure \
+#		--host=$(HOST64) --with-curses --prefix=/usr
+#endif
 
 	touch configure-stamp
 
@@ -142,26 +142,26 @@ build-stamp: configure-stamp
 	    SHOBJ_CFLAGS="-fPIC -D_REENTRANT" \
 	    SHLIB_LIBS="-lncurses"
 
-ifneq ($(build32),)
-	$(MAKE) -C $(builddir32) \
-	    CC="$(CC32)" \
-	    CFLAGS="-g -O2" \
-	    SHOBJ_CFLAGS="-fPIC -D_REENTRANT" \
-	    SHOBJ_LDFLAGS='-shared' \
-	    SHLIB_LIBS="-lncurses" \
-	    SHLIB_XLDFLAGS='$(CC_LINK_FLAGS)-soname,`echo $$@ | sed s/\\..$$$$//`'
-endif
-
-ifneq ($(build64),)
-	$(MAKE) -C $(builddir64) \
-	    CC="$(CC64)" \
-	    CFLAGS="-g -O2" \
-	    SHOBJ_CFLAGS="-fPIC -D_REENTRANT" \
-	    SHOBJ_LDFLAGS='-shared' \
-	    SHLIB_LIBS="-lncurses" \
-	    SHLIB_XLDFLAGS='$(CC_LINK_FLAGS)-soname,`echo $$@ | sed s/\\..$$$$//`'
-endif
-	$(MAKE) -C $(builddir)/doc info
+#ifneq ($(build32),)
+#	$(MAKE) -C $(builddir32) \
+#	    CC="$(CC32)" \
+#	    CFLAGS="-g -O2" \
+#	    SHOBJ_CFLAGS="-fPIC -D_REENTRANT" \
+#	    SHOBJ_LDFLAGS='-shared' \
+#	    SHLIB_LIBS="-lncurses" \
+#	    SHLIB_XLDFLAGS='$(CC_LINK_FLAGS)-soname,`echo $$@ | sed s/\\..$$$$//`'
+#endif
+#
+#ifneq ($(build64),)
+#	$(MAKE) -C $(builddir64) \
+#	    CC="$(CC64)" \
+#	    CFLAGS="-g -O2" \
+#	    SHOBJ_CFLAGS="-fPIC -D_REENTRANT" \
+#	    SHOBJ_LDFLAGS='-shared' \
+#	    SHLIB_LIBS="-lncurses" \
+#	    SHLIB_XLDFLAGS='$(CC_LINK_FLAGS)-soname,`echo $$@ | sed s/\\..$$$$//`'
+#endif
+#	$(MAKE) -C $(builddir)/doc info
 
 	touch build-stamp
 
@@ -188,12 +188,12 @@ clean: unpatch
 	rm -f configure*-stamp build*-stamp install-stamp
 	rm -rf autom4te.cache
 	rm -rf $(builddir)
-ifneq ($(build64),)
-	rm -rf $(builddir64) $(d64)
-endif
-ifneq ($(build32),)
-	rm -rf $(builddir32) $(d32)
-endif
+#ifneq ($(build64),)
+#	rm -rf $(builddir64) $(d64)
+#endif
+#ifneq ($(build32),)
+#	rm -rf $(builddir32) $(d32)
+#endif
 	rm -f doc/*.dvi
 	rm -f debian/shlibs.local
 	$(MAKE) -f debian/rules unpatch
