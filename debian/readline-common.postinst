@@ -10,7 +10,4 @@ if [ "$1" = "configure" ] && [ "$2" = "" ]; then
   install_from_default /usr/share/readline/inputrc /etc/inputrc
 fi
 
-#install-info --quiet --section "Miscellaneous" "Miscellaneous" \
-#  --description="GNU Readline Library API" /usr/share/info/rluserman.info.gz
-
 #DEBHELPER#
