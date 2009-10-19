@@ -1,3 +1,12 @@
+readline5 (5.2-6) asimov; urgency=low
+
+  * Remove postinst/prerm scripts from libreadline5 (we do not install info
+    files).
+  * Remove rlfe package.
+  * Packaging cleanup.
+
+ -- Mikhail Gusarov <dottedmag@dottedmag.net>  Tue, 20 Oct 2009 05:10:12 +0700
+
 readline5 (5.2-5.1) asimov; urgency=low
 
   * IPlinux port
